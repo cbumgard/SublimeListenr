@@ -5,7 +5,7 @@ Listens for any code editing events in Sublime Text 2. Logs them to a server for
 
 Here's a sample activity message (captured as JSON) when typing a character into a Python file:
 
-> {time_gmt_ms:1355477878934,event:'on_modified',id:72,buffer_id:68,is_loading:False,is_dirty:True,is_read_only:False,file_ext:'.md',size:1444}
+> {time_gmt_ms:1355478092027,event:'on_modified',id:70,buffer_id:67,is_loading:False,is_dirty:True,is_read_only:False,file_ext:'.py',size:1737}
 
 The following events are captured:
 
