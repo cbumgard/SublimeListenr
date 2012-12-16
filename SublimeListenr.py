@@ -15,7 +15,7 @@ import threading
 # r = is_read_only
 # f = file_ext
 # s = size
-activity_json_template = "{t:%s,e:%s,i:%s,b:%s,l:%s,d:%s,r:%s,f:\"%s\",s:%s}"  
+activity_json_template = '{"t":%s,"e":%s,"i":%s,"b":%s,"l":%s,"d":%s,"r":%s,"f":"%s","s":%s}'
 
 events = {
   "on_new": 1, 
