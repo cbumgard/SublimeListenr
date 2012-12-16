@@ -50,6 +50,14 @@ class SublimeListenrCommand(sublime_plugin.EventListener):
       1 if view.is_read_only() else 0,
       file_ext, 
       file_size)
+  def post_activity_to_server(self):
+    if len(self.activity) == 0:
+      return
+    thread = SublimeListenrApiPost(self.activity, 5)
+    self.threads.append(thread)
+    thread.start()
+    self.activity = [] # clear array to free space; the thread made a local copy on init
+    self.handle_threads(self.threads)
   def handle_activity(self, activity_json):
     self.activity.append(activity_json)
   def on_new(self, view):
@@ -60,15 +68,12 @@ class SublimeListenrCommand(sublime_plugin.EventListener):
     self.handle_activity( self.get_activity_json(view, events["on_load"]) )
   def on_close(self, view):
     self.handle_activity( self.get_activity_json(view, events["on_close"]) )
+    self.post_activity_to_server()    
   def on_pre_save(self, view):
     self.handle_activity( self.get_activity_json(view, events["on_pre_save"]) )
   def on_post_save(self, view): 
     self.handle_activity( self.get_activity_json(view, events["on_post_save"]) )
-    thread = SublimeListenrApiPost(self.activity, 5)
-    self.threads.append(thread)
-    thread.start()
-    self.activity = [] # clear array to free space; the thread made a local copy on init
-    self.handle_threads(self.threads)
+    self.post_activity_to_server()
   def on_modified(self, view):
     self.handle_activity( self.get_activity_json(view, events["on_modified"]) )
   def on_selection_modified(self, view):
@@ -92,10 +97,12 @@ class SublimeListenrApiPost(threading.Thread):
   def __init__(self, activity_json, timeout):
     self.activity_json = activity_json
     self.timeout = timeout
+    self.result = None  
     threading.Thread.__init__(self)
   def run(self):
     try:
-      print "[%s Plugin] Posting %s activity events to %s" % (__name__, len(self.activity_json), api_url)
+      print "[%s Plugin] Posting %s activity events to %s" % \
+        (__name__, len(self.activity_json), api_url_base)
       data = urllib.urlencode({"activity": self.activity_json}, True)
       headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
       conn = httplib.HTTPConnection(api_url_base)
