@@ -29,7 +29,7 @@ events = {
   "on_activated": 9, 
   "on_deactivated": 10}
 
-api_url_base = "127.0.0.1:8000"
+api_url_base = "listenr-5152.onmodulus.net:80"
 api_endpoint = "/listenr"
 
 class SublimeListenrCommand(sublime_plugin.EventListener):  
