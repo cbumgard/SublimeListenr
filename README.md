@@ -1,11 +1,35 @@
 SublimeListenr
 =
 
-Listens for any code editing events in Sublime Text 2. Logs them to a server for fun & profit. Or more specifically for a fun experiment in capturing and visualizing code activity. And ideally turning it into something cool, like generative ambient sounds. **No personal/confidential information is captured.**
+Listens for any code editing events in Sublime Text 2. Logs them to a server for fun & profit. Or more specifically for a fun experiment in capturing and visualizing code activity. And ideally turning it into something cool, like generative ambient sounds. **No personal/confidential information is captured, although to make this more fun & useful you can set your github username in the settings file in order to do stats on your activity.**
 
 Here's a sample activity message (captured as JSON) when typing a character into a Python file:
 
-> {time_gmt_ms:1355478092027,event:'on_modified',id:70,buffer_id:67,is_loading:False,is_dirty:True,is_read_only:False,file_ext:'.py',size:1737}
+```json
+{"t":1357441371196,"e":6,"i":28,"b":26,"l":0,"d":0,"r":0,"f":"py","s":4564,"h":"6a75228602aaaa8d473afff7a4163d2a","g":"cbumgard"}
+```
+
+Which is transformed to the following on the server and persisted in MongoDB to look like:
+
+```json
+{
+  "time_gmt_ms" : ISODate("2013-01-06T03:00:56.203Z"),
+  "event" : "on_selection_modified",
+  "id" : 28,
+  "buffer_id" : 26,
+  "is_loading" : false,
+  "is_dirty" : false,
+  "is_read_only" : false,
+  "file_ext" : ".py",
+  "size" : 4564,
+  "file_name_hash" : "6a75228602aaaa8d473afff7a4163d2a",
+  "github_username" : "cbumgard",
+  "client_ip" : "127.0.0.1",
+  "created" : ISODate("2013-01-06T03:00:56.508Z"),
+  "__v" : 0,
+  "_id" : ObjectId("50e8e8e87f0bba0000000014")
+}
+```
 
 The following events are captured:
 
