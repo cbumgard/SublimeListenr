@@ -1,13 +1,18 @@
-SublimeListenr
-=
+# SublimeListenr
 
-Listens for any code editing events in Sublime Text 2. Logs them to a server for fun & profit. Or more specifically for a fun experiment in capturing and visualizing code activity. And ideally turning it into something cool, like generative ambient sounds. **No personal/confidential information is captured, although to make this more fun & useful you can set your github username in the settings file in order to do stats on your activity.**
+Listens for any code editing events in Sublime Text 2. Logs them to a server for fun & profit. Or more specifically for a fun experiment in capturing and visualizing code activity. And ideally turning it into something cool, like generative ambient sounds. No personal/confidential information is captured, although to make this more fun & useful you can set your github username in the settings file in order to do stats on your activity. This plugin is intended for fun, creative endeavors :)
+
+## Example
+
+### On Client
 
 Here's a sample activity message (captured as JSON) when typing a character into a Python file:
 
 ```json
 {"t":1357441371196,"e":6,"i":28,"b":26,"l":0,"d":0,"r":0,"f":"py","s":4564,"h":"6a75228602aaaa8d473afff7a4163d2a","g":"cbumgard"}
 ```
+
+### On Server
 
 Which is transformed to the following on the server and persisted in MongoDB to look like:
 
@@ -31,6 +36,12 @@ Which is transformed to the following on the server and persisted in MongoDB to 
 }
 ```
 
+## Settings
+
+Add your github username to monitor, aggregate, or play with your data by changing the setting "github_username" in the [settings file](https://github.com/cbumgard/SublimeListenr/blob/master/SublimeListenr.sublime-settings).
+
+## Captured Activity
+
 The following events are captured:
 
 * on_new(view)    None  Called when a new buffer is created.
@@ -44,4 +55,8 @@ The following events are captured:
 * on_activated(view)  None  Called when a view gains input focus.
 * on_deactivated(view)  None  Called when a view loses input focus.
 
-(Taken from http://www.sublimetext.com/docs/2/api_reference.html#sublime_plugin.EventListener)
+Taken from [Sublime Text Plugin Docs](http://www.sublimetext.com/docs/2/api_reference.html#sublime_plugin.EventListener)
+
+## License
+
+This module is MIT licensed [here](https://github.com/cbumgard/SublimeListenr/blob/master/LICENSE).
